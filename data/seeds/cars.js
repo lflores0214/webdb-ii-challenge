@@ -1,20 +1,20 @@
 exports.seed = function(knex) {
   // Deletes ALL existing entries
-  return knex("table_name")
-    .del()
+  return knex("cars")
+    .truncate()
     .then(function() {
       // Inserts seed entries
-      return knex("table_name").insert([
+      return knex("cars").insert([
         {
-          Vin: 12345678912345678,
+          Vin: "12345678912345678",
           Make: "Honda",
           Model: "Civic",
-          Mileage: 100000,
+          Mileage: 10000,
           transmission_type: "Manual",
           Title_status: "clean"
         },
         {
-          Vin: 11111111111111111,
+          Vin: "11111111111111111",
           Make: "Nissan",
           Model: "Sentra",
           Mileage: 5000,
@@ -22,7 +22,7 @@ exports.seed = function(knex) {
           Title_status: "salvaged"
         },
         {
-          Vin: 22222222222222222,
+          Vin: "22222222222222222",
           Make: "Toyota",
           Model: "Camry",
           Mileage: 103,

@@ -3,7 +3,7 @@ exports.up = function(knex) {
     tbl.increments();
 
     tbl
-      .integer("VIN")
+      .string("VIN", 17)
       .notNullable()
       .unique()
       .index();
