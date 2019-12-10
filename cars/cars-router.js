@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
       });
     });
 });
-
+// GET returns car by id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
 
@@ -41,6 +41,7 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// POST posts a new car
 router.post("/", (req, res) => {
   const carData = req.body;
   db("cars")
@@ -54,6 +55,33 @@ router.post("/", (req, res) => {
       console.log(error);
       res.status(500).json({
         errorMessage: "error posting new car data"
+      });
+    });
+});
+
+//PUT updates car entry
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db("cars")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      if (count > 0) {
+        res.status(201).json({
+          message: `${count} car(s) updated`
+        });
+      } else {
+        res.status(404).json({
+          message: "car not found"
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        errorMessage: "error updating car data"
       });
     });
 });
