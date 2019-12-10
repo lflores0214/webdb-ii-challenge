@@ -42,7 +42,7 @@ router.get("/:id", (req, res) => {
 });
 
 // POST posts a new car
-router.post("/", (req, res) => {
+router.post("/",validateCar, (req, res) => {
   const carData = req.body;
   db("cars")
     .insert(carData)
@@ -60,7 +60,7 @@ router.post("/", (req, res) => {
 });
 
 //PUT updates car entry
-router.put("/:id", (req, res) => {
+router.put("/:id", validateCar,(req, res) => {
   const { id } = req.params;
   const changes = req.body;
 
@@ -107,5 +107,25 @@ router.delete("/:id", (req, res) => {
       });
     });
 });
-
+function validateCar(req, res, next) {
+  !req.body
+    ? res.status(400).json({
+        message: "missing car data"
+      })
+    : !req.body.VIN
+    ? res.status(400).json({
+        message: "missing car VIN"
+      })
+    : !req.body.make
+    ? res.status(400).json({
+        message: "missing car make"
+      })
+    : !req.body.model
+    ? res.status(400).json({
+        message: "missing car model"
+      })
+    : !req.body.mileage
+    ? res.status(400).json({ errorMessage: "missing car mileage" })
+    : next();
+}
 module.exports = router;
