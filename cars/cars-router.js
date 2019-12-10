@@ -86,4 +86,26 @@ router.put("/:id", (req, res) => {
     });
 });
 
+//DELETE deletes a car
+router.delete("/:id", (req, res) => {
+  db("cars")
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      count > 0
+        ? res.status(200).json({
+            message: `${count} car(s) deleted`
+          })
+        : res.status(404).json({
+            message: "car not found"
+          });
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500).json({
+        errorMessage: "error deleting data"
+      });
+    });
+});
+
 module.exports = router;
